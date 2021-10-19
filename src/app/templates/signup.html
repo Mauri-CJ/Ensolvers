@@ -5,7 +5,20 @@
 {%endblock%}
 {%block title%} Signup {%endblock%}
 {%block body%}
+    {% for message in get_flashed_messages() %}
+
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" 
+                    data-dismiss="alert" 
+                    class="close">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
     <h1>Registrate</h1>
     {{wtf.quick_form(form_signup)}}
     <a href="{{url_for('auth.login')}}">Volver al Login</a>
+
+    {%block scripts %} 
+        {{super()}}
+    {% endblock %}
 {%endblock%}
