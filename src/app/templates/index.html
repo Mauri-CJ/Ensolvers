@@ -1,9 +1,12 @@
 {% extends 'bootstrap/base.html'%}
-{% import 'bootstrap/wtf.html' as wtf%}
-{%block head%}
-    {{super()}}
-{%endblock%}
-{%block title%} Login {%endblock%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensolvers</title>
+</head>
 {%block body%}
     {% for message in get_flashed_messages() %}
 
@@ -14,12 +17,11 @@
             {{ message }}
         </div>
     {% endfor %}
-    <h1>Ingresa</h1>
-    {{wtf.quick_form(form_login)}}
-    <a href="{{url_for('auth.signup')}}">¿Aun no tienes cuenta?</a>
+    <h1>Welcome User</h1>
+    
     
     {%block scripts %} 
         {{super()}}
     {% endblock %}
 {%endblock%}
-
+</html>
