@@ -1,4 +1,5 @@
 {% extends 'bootstrap/base.html'%}
+{% import 'bootstrap/wtf.html' as wtf%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,9 +18,20 @@
             {{ message }}
         </div>
     {% endfor %}
-    <h1>Welcome User</h1>
-    
-    
+    <h1>Welcome {{nombre_usuario}}</h1>
+    {%if carpetas%}
+        <h4>Carpetas</h4>
+    {%endif%}
+    {%for carpeta in carpetas%}
+        <li class="list-group-item">
+            {{carpeta.nombre}} &nbsp;
+            <a href="{{url_for('ver_tareas',id=carpeta.id_carpeta,nombre=carpeta.nombre)}}">Ver tareas</a> &nbsp;
+            <a href="{{url_for('eliminar_carpeta',id=carpeta.id_carpeta)}}">Eliminar Carpeta</a>
+        </li>
+    {%endfor%}
+    <br>
+    <br>
+    {{wtf.quick_form(agregar_form)}}
     {%block scripts %} 
         {{super()}}
     {% endblock %}

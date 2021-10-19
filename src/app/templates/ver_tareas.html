@@ -1,0 +1,24 @@
+{% extends 'bootstrap/base.html'%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{%block body%}
+    <h2>Carpeta>{{nombre_carpeta}}</h2>
+    <h3>Tareas</h3>
+    {%for tarea in tareas%}
+        <input type="checkbox">
+        {{tarea.nombre}} 
+        &nbsp;&nbsp;
+        <a href="">Eliminar</a>&nbsp;
+        <a href="">Editar</a>
+    {%endfor%}
+    <br> <br> <br>
+    <a href="{{url_for('index')}}">Volver al inicio</a>
+{%endblock%}
+</body>
+</html>

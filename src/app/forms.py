@@ -13,3 +13,7 @@ class SignupForm(FlaskForm):
     email_usuario =  StringField("Email",validators=[DataRequired()])
     contraseña = PasswordField("Contraseña",validators=[DataRequired()])
     enviar = SubmitField("Registrarse")
+
+class AgregarForm(FlaskForm):
+    nueva_carpeta= StringField("Agregar Carpeta", validators = [DataRequired()])
+    crear =  SubmitField("Agregar")

@@ -1,7 +1,9 @@
-from flask import render_template,redirect,url_for
+from flask import render_template,redirect,url_for,request
 from flask.helpers import flash
+from jinja2.utils import contextfunction
 from app import create_app
 from app.database import db
+from app.forms import AgregarForm
 from flask_migrate import Migrate
 from flask_login import login_required,LoginManager,current_user,logout_user
 from app.models import Usuario,Carpeta,Tarea
@@ -26,11 +28,49 @@ login_manager.login_view = 'auth.login'
 def load_user(user_id):
     return Usuario.query.filter_by(id_usuario=user_id).first()
 
-@app.route('/')
+@app.route('/',methods = ['GET','POST'])
 @login_required
 def index():
-    print(current_user.id_usuario)
-    return render_template('index.html')
+    id_usuario = current_user.id_usuario
+    nombre_usuario = current_user.nombre
+    carpetas = Carpeta.query.filter_by(id_usuario=id_usuario)
+    agregar_form = AgregarForm()
+    context = {
+        'id_usuario':id_usuario,
+        'nombre_usuario': nombre_usuario,
+        'carpetas':carpetas,
+        'agregar_form' : agregar_form,
+    }
+
+    if request.method == 'POST':
+        if agregar_form.validate_on_submit():
+            carpeta = Carpeta(id_usuario=current_user.id_usuario,nombre=agregar_form.nueva_carpeta.data)
+            db.session.add(carpeta)
+            db.session.commit()
+            return redirect(url_for('index'))
+
+    return render_template('index.html',**context)
+
+@app.route('/ver/<int:id>/<string:nombre>')
+def ver_tareas(id,nombre):
+    tareas=Tarea.query.filter_by(id_carpeta=id)
+    context = {
+        'nombre_carpeta' : nombre,
+        'tareas' : tareas,
+    }
+
+    return render_template('ver_tareas.html',**context)
+
+@app.route('/eliminar_carpeta/<int:id>')
+def eliminar_carpeta(id):
+    carpeta =  Carpeta.query.filter_by(id_carpeta=id).first()
+    tareas =  Tarea.query.filter_by(id_carpeta=id)
+    for tarea in tareas:
+        db.session.delete(tarea)
+    db.session.delete(carpeta)
+    db.session.commit()
+
+    return redirect(url_for('index'))
 
 @app.route('/logout')
 @login_required
