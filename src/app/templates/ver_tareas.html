@@ -1,4 +1,5 @@
 {% extends 'bootstrap/base.html'%}
+{% import 'bootstrap/wtf.html' as wtf%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,18 +8,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+</style>
 {%block body%}
     <h2>Carpeta>{{nombre_carpeta}}</h2>
     <h3>Tareas</h3>
     {%for tarea in tareas%}
-        <input type="checkbox">
-        {{tarea.nombre}} 
-        &nbsp;&nbsp;
-        <a href="">Eliminar</a>&nbsp;
-        <a href="">Editar</a>
+        <li class="list-group-item">
+            {% if tarea.estado%}
+                <input type="checkbox" disabled checked>
+            {%else%}
+                <input type="checkbox" disabled >
+            {%endif%}
+            {{tarea.nombre}}
+            &nbsp;&nbsp;
+            <a href="{{url_for('eliminar_tarea',id=tarea.id_tarea)}}">Eliminar</a>&nbsp;
+            <a href="{{url_for('editar_tarea',id=tarea.id_tarea)}}">Editar</a>
+        </li>
+
     {%endfor%}
-    <br> <br> <br>
-    <a href="{{url_for('index')}}">Volver al inicio</a>
+    <br>
+    <br>
+    {{wtf.quick_form(agregar_tarea)}}
+    <br>
+    <a href="{{url_for('index')}}">Volver a las carpetas</a>
 {%endblock%}
 </body>
 </html>
