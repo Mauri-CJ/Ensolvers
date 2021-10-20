@@ -17,9 +17,9 @@ def login():
     if  request.method  == 'POST':
         if login.validate_on_submit():
             email_form = login.email_usuario.data
+            contraseña_form =  login.contraseña.data
             usuario_db = Usuario.query.filter_by(email=email_form).first()
             if usuario_db != None:
-                contraseña_form =  login.contraseña.data
                 if check_password_hash(usuario_db.contraseña,contraseña_form):
                     login_user(usuario_db)
                     flash("Bienvenido de nuevo")

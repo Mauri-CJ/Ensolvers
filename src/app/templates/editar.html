@@ -1,0 +1,18 @@
+{% extends 'bootstrap/base.html'%}
+{% import 'bootstrap/wtf.html' as wtf%}
+{%block body%}
+<h1>Editando la tarea: {{tarea.nombre}}</h1>
+    <form method="POST">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" name="nombre" type="text" value="{{tarea.nombre}}">
+        <br>
+        <label for="hecho">¿Hecho?</label>
+        {% if tarea.estado%}
+            <input id="hecho" name="hecho" type="checkbox" checked>
+        {%else%}
+            <input id="hecho" name="hecho" type="checkbox" >
+        {%endif%}
+        <br>
+        <button>Editar</button>
+    </form>
+{%endblock%}
